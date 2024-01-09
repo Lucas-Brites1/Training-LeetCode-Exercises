@@ -15,23 +15,42 @@ Output: "123"
 Explanation: Integer "123" has no trailing zeros, we return integer "123".
 */
 
-
+//!1. First method to resolve, bad runtime 
 function removeTrailingZeros(n: string): string {
     let array: string[] = [...n]
-    let returnedNumber: string = ""
+    let returnedNumber: string | string[] = ""
 
     for (let i = array.length - 1; i >= 0; i--) {
-        if (array[i] == "0" && array[i - 1] === "0" || i === array.length - 1 && array[i] === "0") {
-            array.slice(0, 3)
+
+        if (array[i - 1] == "0" && array[i] === "0" || i === array.length - 1 && array[i] === "0") {
+            if (returnedNumber) {
+                returnedNumber += array[i]
+            }
+        } else {
+            if (returnedNumber.length === 0 && array[i] === "0") {
+                console.log("")
+            } else {
+                returnedNumber += array[i]
+            }
         }
 
-        if (array[i]) {
-            returnedNumber += array[i]
-        }
     }
 
-    console.log(returnedNumber)
-    return ``
+    returnedNumber = returnedNumber.split("").reverse().join("")
+
+    return returnedNumber
 }
 
-removeTrailingZeros(`13304420`)
+console.log(removeTrailingZeros("632000006015557606443347519427749601596558478450834618045759063013967150904200300000000"))
+
+//! Good Runtime, bad memory
+//! Method 2
+function removeTrailingZeros2(n: string): string {
+    while (n.endsWith("0")) {
+        //Removing the last digit while its equal = "0"
+        n = n.slice(0, -1)
+    }
+    return n
+}
+
+console.log(removeTrailingZeros2("632000006015557606443347519427749601596558478450834618045759063013967150904200300000000"))
